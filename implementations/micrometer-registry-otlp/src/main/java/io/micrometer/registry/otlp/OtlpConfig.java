@@ -81,6 +81,10 @@ public interface OtlpConfig extends PushRegistryConfig {
 
         if (env.containsKey("OTEL_SERVICE_NAME") && !resourceAttributes.containsKey("service.name")) {
             resourceAttributes.put("service.name", env.get("OTEL_SERVICE_NAME"));
+        } else if (!resourceAttributes.containsKey("service.name")) {
+            // neither env nor attributes include service.name
+            // fall back to convention
+            resourceAttributes.put("service.name", "unknown_service:java");
         }
 
         return resourceAttributes;
